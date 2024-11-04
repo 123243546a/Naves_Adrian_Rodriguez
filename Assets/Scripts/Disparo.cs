@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class Disparo : MonoBehaviour
 {
-    float velocidadDisparo;
-    float rb;
+    [SerializeField]private float velocidadDisparo;
+    [SerializeField] private float DanhoDisparo;
+
+    
     
     // Start is called before the first frame update
     void Start()
@@ -16,6 +18,27 @@ public class Disparo : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Movimiento();
+        
+    }
+    private void Movimiento()
+    {
         transform.Translate(new Vector3(1, 0, 0).normalized * Time.deltaTime * velocidadDisparo);
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("Enemigo"))
+        {
+            Destroy(gameObject);
+            other.gameObject.GetComponent<Enemigo>().RecibirDanho(DanhoDisparo);
+
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        Destroy(gameObject);
+        
     }
 }
