@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class Player1 : MonoBehaviour
@@ -7,11 +8,14 @@ public class Player1 : MonoBehaviour
     [SerializeField] private float velocidad;
     [SerializeField] private GameObject disparo; 
     [SerializeField] private GameObject spawnPoint;
-    
+    [SerializeField] private float vidas;
+    [SerializeField] private Animator anim;
+    [SerializeField] private TMP_Text textoVidas;
+
     Player1 player;
     void Start() 
     {
-
+        anim = GetComponent<Animator>();
     }
 
     private void Update()
@@ -23,6 +27,20 @@ public class Player1 : MonoBehaviour
         transform.Translate(new Vector3(h, v, 0).normalized * velocidad * Time.deltaTime);
 
         Disparar();
+    }
+
+    public void RecibirDanho(float danhoRecibido)
+    {
+        vidas -= danhoRecibido;
+        anim.SetTrigger("Hit");
+        textoVidas.SetText(vidas.ToString());
+        if (vidas <= 0)
+        {
+            Destroy(gameObject);
+
+        }
+
+
     }
 
     private void LimitarMovimiento() 

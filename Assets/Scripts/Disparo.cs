@@ -34,6 +34,12 @@ public class Disparo : MonoBehaviour
             other.gameObject.GetComponent<Enemigo>().RecibirDanho(DanhoDisparo);
 
         }
+
+        else if (other.gameObject.CompareTag("Player"))
+        {
+            other.gameObject.GetComponent<Player1>().RecibirDanho(DanhoDisparo);
+            Destroy(gameObject);
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

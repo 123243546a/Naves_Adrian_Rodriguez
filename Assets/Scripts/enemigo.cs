@@ -7,9 +7,12 @@ public class Enemigo : MonoBehaviour
     [SerializeField] private float velocidad;
     [SerializeField] private float vidas;
     [SerializeField] private Animator anim;
+    [SerializeField] private GameObject DisparoEnemigos;
+    [SerializeField] private GameObject SpawnDisparo;
     // Start is called before the first frame update
     void Start()
     {
+        StartCoroutine(SpawnDisparos());
         anim = GetComponent<Animator>();
     }
 
@@ -28,7 +31,19 @@ public class Enemigo : MonoBehaviour
             Destroy(gameObject);
 
         }
-    } 
+
+
+    }
+
+    private IEnumerator SpawnDisparos()
+    {
+        while (true)
+        {
+            
+            Instantiate(DisparoEnemigos, SpawnDisparo.transform.position, Quaternion.identity);
+            yield return new WaitForSeconds(2);
+        }
+    }
 
 
      
