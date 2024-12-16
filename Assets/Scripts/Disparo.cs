@@ -30,15 +30,16 @@ public class Disparo : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Enemigo"))
         {
-            Destroy(gameObject);
             other.gameObject.GetComponent<Enemigo>().RecibirDanho(DanhoDisparo);
-
+            Destroy(gameObject);
+            print("He colisionado con el enemigo");
         }
 
         else if (other.gameObject.CompareTag("Player"))
         {
             other.gameObject.GetComponent<Player1>().RecibirDanho(DanhoDisparo);
             Destroy(gameObject);
+            print("He colisionado con el jugador");
         }
     }
 

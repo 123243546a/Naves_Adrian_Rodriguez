@@ -11,7 +11,10 @@ public class Player1 : MonoBehaviour
     [SerializeField] private float vidas;
     [SerializeField] private Animator anim;
     [SerializeField] private TMP_Text textoVidas;
-
+    [SerializeField] private GameObject humo;
+    [SerializeField] private GameObject nave;
+    [SerializeField] private float tiempoHumo;
+    [SerializeField] private bool muerto = false;
     Player1 player;
     void Start() 
     {
@@ -23,12 +26,30 @@ public class Player1 : MonoBehaviour
 
         float h = Input.GetAxisRaw("Horizontal");
         float v = Input.GetAxisRaw("Vertical");
+        if (vidas > 0)
+        {
+            transform.Translate(new Vector3(h, v, 0).normalized * velocidad * Time.deltaTime);
 
-        transform.Translate(new Vector3(h, v, 0).normalized * velocidad * Time.deltaTime);
-
-        Disparar();
+            Disparar();
+        }
+        if (muerto)
+        {
+            if (tiempoHumo > 0)
+            {
+                tiempoHumo -= Time.deltaTime;
+            }
+            else
+            {
+                humo.SetActive(false);
+                nave.SetActive(true);
+                muerto = false;
+                vidas = 100;
+                tiempoHumo = 3f;
+                transform.position = new Vector3(-7.273f, 0, 0.07605919f);
+                textoVidas.SetText(vidas.ToString());
+            }
+        }
     }
-
     public void RecibirDanho(float danhoRecibido)
     {
         vidas -= danhoRecibido;
@@ -36,8 +57,9 @@ public class Player1 : MonoBehaviour
         textoVidas.SetText(vidas.ToString());
         if (vidas <= 0)
         {
-            Destroy(gameObject);
-
+            humo.SetActive(true);
+            nave.SetActive(false);
+            muerto = true;
         }
 
 

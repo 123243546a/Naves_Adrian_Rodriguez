@@ -9,6 +9,10 @@ public class Enemigo : MonoBehaviour
     [SerializeField] private Animator anim;
     [SerializeField] private GameObject DisparoEnemigos;
     [SerializeField] private GameObject SpawnDisparo;
+    [SerializeField] private GameObject humo;
+    [SerializeField] private GameObject nave;
+    [SerializeField] private float tiempoHumo;
+    [SerializeField] private bool muerto = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -19,7 +23,22 @@ public class Enemigo : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.Translate(new Vector3(-1, 0, 0).normalized * 5 * velocidad * Time.deltaTime);
+        if (vidas > 0) 
+        {
+            transform.Translate(new Vector3(-1, 0, 0).normalized * 5 * velocidad * Time.deltaTime);
+           
+        }
+        if (muerto)
+        {
+            if (tiempoHumo > 0)
+            {
+                tiempoHumo -= Time.deltaTime;
+            }
+            else 
+            {
+                Destroy(gameObject);
+            }
+        }
     }
 
     public void RecibirDanho(float danhoRecibido)
@@ -28,8 +47,9 @@ public class Enemigo : MonoBehaviour
         anim.SetTrigger("Enemigo");
         if (vidas <= 0)
         {
-            Destroy(gameObject);
-
+            humo.SetActive(true);
+            nave.SetActive(false);
+            muerto = true;
         }
 
 
